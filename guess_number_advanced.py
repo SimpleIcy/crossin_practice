@@ -10,7 +10,7 @@ def guess_num():
             for line in f.readlines():
                 all_data.append(list(line.strip().split()))
     else:
-        with open('data.txt') as f:
+        with open('data.txt', 'w') as f:
             f.close()
     if all_data:
         for i in all_data:
@@ -25,7 +25,7 @@ def guess_num():
     else:
         least_times = 0
         print('%s,你已经玩了0次，最少0轮猜出答案，平均0轮猜出答案，开始游戏！' % player)
-    all = []
+    all_guess_nums = []
     times = 0
     guess = True
     random_num = int(requests.get('https://python666.cn/cls/number/guess/').text)
@@ -44,17 +44,18 @@ def guess_num():
         elif you_num == random_num:
             times += 1
             print("猜对了，你一共猜了%s轮" % times)
-            all.append(times)
+            all_guess_nums.append(times)
             if least_times == 0 or least_times > times:
                 least_times = times
             if exist_player:
                 # 将存在用户的数据的list更新
                 play_index = all_player.index(player)
-                exist_all = int(all_data[play_index][1]) + all.__len__()
-                exist_alltimes = int(all_data[play_index][1]) * float(all_data[play_index][3]) + sum(all)
+                exist_all = int(all_data[play_index][1]) + 1
+                exist_alltimes = sum(all_guess_nums)
                 guess_avg = round(exist_alltimes / exist_all, 2)
                 all_data[play_index] = [player, exist_all, least_times, guess_avg]
                 print('%s,你已经玩了%s次，最少%s轮猜出答案，平均%s轮猜出答案' % (player, exist_all, least_times, guess_avg))
+
             else:
                 # 用户猜数数据新增此用户的数据
                 all_data.append([player, 1, least_times, times])
@@ -62,14 +63,6 @@ def guess_num():
                 print('%s,你已经玩了%s次，最少%s轮猜出答案，平均%s轮猜出答案' % (player, 1, least_times, times))
                 exist_player = True
             times = 0
-            # 将数据重新写入用户数据记录文件
-            with open('data.txt', 'w') as f:
-                for user in all_data:
-                    for x in user:
-                        user[user.index(x)] = str(x)
-                    userdata = ' '.join(user)
-                    f.write(userdata)
-                    f.write('\n')
             choose = str(input('是否继续游戏？（输入y继续，其他退出）'))
             if choose == 'y':
                 guess = True
@@ -77,6 +70,14 @@ def guess_num():
             else:
                 guess = False
                 print("退出游戏，欢迎下次再来！")
+    # 将数据重新写入用户数据记录文件
+    with open('data.txt', 'w') as f:
+        for user in all_data:
+            for x in user:
+                user[user.index(x)] = str(x)
+            userdata = ' '.join(user)
+            f.write(userdata)
+            f.write('\n')
 
 
 if __name__ == '__main__':
