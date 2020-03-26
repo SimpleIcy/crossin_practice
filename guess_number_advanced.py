@@ -25,11 +25,12 @@ def guess_num():
     else:
         least_times = 0
         print('%s,你已经玩了0次，最少0轮猜出答案，平均0轮猜出答案，开始游戏！' % player)
-    all_guess_nums = []
+
     times = 0
     guess = True
     random_num = int(requests.get('https://python666.cn/cls/number/guess/').text)
     while guess:
+        all_guess_nums = []
         try:
             you_num = int(input('请输入1-100的数字:\t'))
         except ValueError:
@@ -51,7 +52,7 @@ def guess_num():
                 # 将存在用户的数据的list更新
                 play_index = all_player.index(player)
                 exist_all = int(all_data[play_index][1]) + 1
-                exist_alltimes = sum(all_guess_nums)
+                exist_alltimes = sum(all_guess_nums) + int(all_data[play_index][1]) * float(all_data[play_index][3])
                 guess_avg = round(exist_alltimes / exist_all, 2)
                 all_data[play_index] = [player, exist_all, least_times, guess_avg]
                 print('%s,你已经玩了%s次，最少%s轮猜出答案，平均%s轮猜出答案' % (player, exist_all, least_times, guess_avg))
