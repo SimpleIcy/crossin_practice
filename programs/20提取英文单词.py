@@ -7,10 +7,10 @@ with open('from.txt', 'r', encoding='utf-8') as f:
     f.close()
 
 english_words = re.findall(pattern='[a-zA-Z]+', string=all_words)
-sorted_words = sorted(english_words)
+english_words.sort()
 
 with open('to.txt', 'w') as f:
-    for word in sorted_words:
+    for word in english_words:
         f.write(word+'\n')
     print('完成英文单词提取并保存成功!')
     f.close()
