@@ -5,6 +5,7 @@ import csv
 # 参考别人的代码写的，自己没找到链接的规律。
 # 写代码时，应该多注意单选数据保存使用的list在每次循环中应该重新初始化的。
 # 此程序未完成考虑返回数据很多为空的情况，导致很多时候抓的数据不全。
+# 参考https://gitee.com/fridge86/study/blob/master/Crossin学习小组/04知乎首页推荐.py
 
 
 class ZhiHuQA:
